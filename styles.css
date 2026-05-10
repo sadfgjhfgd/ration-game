@@ -1,0 +1,651 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --accent-color: #e74c3c;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --info-color: #3498db;
+    --danger-color: #c0392b;
+    --light-text: #ecf0f1;
+    --dark-text: #2c3e50;
+    --border-color: #1a252f;
+    --transition: all 0.3s ease;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: var(--light-text);
+    overflow: hidden;
+}
+
+.game-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--primary-color);
+}
+
+/* ========== HEADER ========== */
+.header {
+    background: linear-gradient(90deg, #1a1a2e 0%, #16213e 100%);
+    border-bottom: 3px solid var(--accent-color);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.header h1 {
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    min-width: 300px;
+}
+
+.game-stats {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px 15px;
+    border-radius: 5px;
+    border-left: 3px solid var(--accent-color);
+}
+
+.stat .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #95a5a6;
+}
+
+.stat .value {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--light-text);
+}
+
+.health-bar, .morale-bar {
+    display: inline-block;
+    width: 80px;
+    height: 16px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid #555;
+}
+
+.health-fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #27ae60, #f39c12);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+}
+
+.morale-fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #3498db, #9b59b6);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+}
+
+/* ========== MAIN CONTENT ========== */
+.main-content {
+    display: flex;
+    flex: 1;
+    gap: 15px;
+    padding: 15px;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 250px;
+    background: var(--secondary-color);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar h2 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+}
+
+.main-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+}
+
+/* ========== INVENTORY ========== */
+.inventory-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.inventory-item {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 3px solid var(--info-color);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.item-icon {
+    font-size: 24px;
+}
+
+.item-name {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #95a5a6;
+}
+
+.item-count {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.item-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid #555;
+}
+
+.bar-fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--success-color), var(--warning-color));
+    transition: width 0.5s ease;
+}
+
+/* ========== SQUAD SECTION ========== */
+.squad-section, .distribution-section, .actions-section, .end-day-section {
+    background: var(--secondary-color);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.squad-section h2, .distribution-section h2, .actions-section h2 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+}
+
+.squad-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+}
+
+.squad-member {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #555;
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.squad-member:hover {
+    border-color: var(--accent-color);
+    background: rgba(231, 76, 60, 0.1);
+    transform: translateY(-2px);
+}
+
+.soldier-avatar {
+    font-size: 32px;
+}
+
+.soldier-name {
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.soldier-health {
+    width: 50px;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid #555;
+}
+
+.soldier-health-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #27ae60, #f39c12);
+    transition: width 0.5s ease;
+}
+
+.soldier-status {
+    font-size: 10px;
+    color: #95a5a6;
+    min-height: 12px;
+}
+
+.squad-member.injured {
+    border-color: var(--danger-color);
+    background: rgba(192, 57, 43, 0.1);
+}
+
+.squad-member.injured .soldier-status {
+    color: var(--danger-color);
+}
+
+.squad-member.weakened {
+    border-color: var(--warning-color);
+    background: rgba(243, 156, 18, 0.1);
+}
+
+.squad-member.weakened .soldier-status {
+    color: var(--warning-color);
+}
+
+.squad-member.demoralized {
+    border-color: #9b59b6;
+    background: rgba(155, 89, 182, 0.1);
+}
+
+.squad-member.demoralized .soldier-status {
+    color: #9b59b6;
+}
+
+/* ========== DISTRIBUTION SECTION ========== */
+.distribution-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.distribution-item {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 3px solid var(--info-color);
+}
+
+.distribution-item label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: #95a5a6;
+}
+
+.control-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.btn-control {
+    flex: 0;
+    width: 32px;
+    height: 32px;
+    background: var(--accent-color);
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: var(--transition);
+}
+
+.btn-control:hover {
+    background: var(--danger-color);
+    transform: scale(1.1);
+}
+
+.btn-control:active {
+    transform: scale(0.95);
+}
+
+#rationPerSoldier, #waterPerSoldier, #medicalPerSoldier {
+    flex: 1;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #555;
+    color: var(--light-text);
+    border-radius: 4px;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+.info-text {
+    font-size: 11px;
+    color: #95a5a6;
+}
+
+/* ========== ACTIONS SECTION ========== */
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.action-btn {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(52, 152, 219, 0.05));
+    border: 2px solid var(--info-color);
+    color: var(--light-text);
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.action-btn:hover {
+    background: linear-gradient(135deg, var(--info-color), rgba(52, 152, 219, 0.3));
+    border-color: var(--light-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+}
+
+.action-btn:active {
+    transform: translateY(0);
+}
+
+.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.action-icon {
+    font-size: 28px;
+}
+
+.action-text {
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.action-desc {
+    font-size: 10px;
+    color: #95a5a6;
+}
+
+/* ========== END DAY SECTION ========== */
+.end-day-btn {
+    background: linear-gradient(135deg, var(--success-color), var(--warning-color));
+    border: none;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.end-day-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(39, 174, 96, 0.4);
+}
+
+.end-day-btn:active {
+    transform: translateY(0);
+}
+
+.end-day-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ========== EVENT LOG ========== */
+.event-log {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.event {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 6px;
+    border-left: 3px solid var(--info-color);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.event strong {
+    color: var(--light-text);
+}
+
+.event.event-success {
+    border-left-color: var(--success-color);
+    color: var(--success-color);
+}
+
+.event.event-warning {
+    border-left-color: var(--warning-color);
+    color: var(--warning-color);
+}
+
+.event.event-danger {
+    border-left-color: var(--danger-color);
+    color: var(--danger-color);
+}
+
+.event.event-info {
+    border-left-color: var(--info-color);
+    color: #bdc3c7;
+}
+
+/* ========== MODAL ========== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: var(--primary-color);
+    border: 3px solid var(--accent-color);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #bdc3c7;
+}
+
+.game-stats-final {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 25px 0;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.stat-final {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-final .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #95a5a6;
+}
+
+.stat-final .value {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--light-text);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--success-color), var(--info-color));
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(39, 174, 96, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* ========== SCROLLBAR ========== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--danger-color);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1400px) {
+    .distribution-controls {
+        grid-template-columns: 1fr;
+    }
+
+    .actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .main-content {
+        flex-wrap: wrap;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .squad-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .game-stats {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .stat {
+        padding: 8px 12px;
+    }
+
+    .actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .squad-grid {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    }
+
+    .header h1 {
+        font-size: 20px;
+        min-width: auto;
+    }
+}
