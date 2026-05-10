@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squad Ration Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎖️ Squad Ration Manager</h1>
+            <div class="game-stats">
+                <div class="stat">
+                    <span class="label">Day:</span>
+                    <span id="dayCounter" class="value">1</span>
+                </div>
+                <div class="stat">
+                    <span class="label">Health:</span>
+                    <span id="healthBar" class="health-bar">
+                        <span id="healthFill" class="health-fill"></span>
+                    </span>
+                    <span id="healthValue" class="value">100%</span>
+                </div>
+                <div class="stat">
+                    <span class="label">Morale:</span>
+                    <span id="moraleBar" class="morale-bar">
+                        <span id="moraleFill" class="morale-fill"></span>
+                    </span>
+                    <span id="moraleValue" class="value">100%</span>
+                </div>
+                <div class="stat">
+                    <span class="label">Days Survived:</span>
+                    <span id="daysSurvived" class="value">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Sidebar - Inventory -->
+            <aside class="sidebar inventory-sidebar">
+                <h2>📦 Inventory</h2>
+                <div class="inventory-grid">
+                    <div class="inventory-item">
+                        <div class="item-icon">🍞</div>
+                        <div class="item-name">Rations</div>
+                        <div class="item-count">
+                            <span id="rationCount">50</span> / <span id="rationMax">100</span>
+                        </div>
+                        <div class="item-bar">
+                            <div id="rationBar" class="bar-fill" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="inventory-item">
+                        <div class="item-icon">💧</div>
+                        <div class="item-name">Water</div>
+                        <div class="item-count">
+                            <span id="waterCount">40</span> / <span id="waterMax">80</span>
+                        </div>
+                        <div class="item-bar">
+                            <div id="waterBar" class="bar-fill" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="inventory-item">
+                        <div class="item-icon">💊</div>
+                        <div class="item-name">Medical</div>
+                        <div class="item-count">
+                            <span id="medicalCount">15</span> / <span id="medicalMax">30</span>
+                        </div>
+                        <div class="item-bar">
+                            <div id="medicalBar" class="bar-fill" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="inventory-item">
+                        <div class="item-icon">⛽</div>
+                        <div class="item-name">Fuel</div>
+                        <div class="item-count">
+                            <span id="fuelCount">20</span> / <span id="fuelMax">50</span>
+                        </div>
+                        <div class="item-bar">
+                            <div id="fuelBar" class="bar-fill" style="width: 40%"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center - Squad Management -->
+            <main class="main-panel">
+                <!-- Squad Status -->
+                <section class="squad-section">
+                    <h2>👥 Squad Status (12 Soldiers)</h2>
+                    <div class="squad-grid">
+                        <div id="squadContainer" class="squad-members">
+                            <!-- Squad members will be generated here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Distribution Panel -->
+                <section class="distribution-section">
+                    <h2>🍖 Daily Distribution</h2>
+                    <div class="distribution-controls">
+                        <div class="distribution-item">
+                            <label>Rations per Soldier:</label>
+                            <div class="control-group">
+                                <button class="btn-control" id="rationMinus">−</button>
+                                <input type="number" id="rationPerSoldier" value="3" min="0" max="10">
+                                <button class="btn-control" id="rationPlus">+</button>
+                            </div>
+                            <div class="info-text">Available: <span id="rationInfo">50</span></div>
+                        </div>
+                        <div class="distribution-item">
+                            <label>Water per Soldier:</label>
+                            <div class="control-group">
+                                <button class="btn-control" id="waterMinus">−</button>
+                                <input type="number" id="waterPerSoldier" value="2" min="0" max="10">
+                                <button class="btn-control" id="waterPlus">+</button>
+                            </div>
+                            <div class="info-text">Available: <span id="waterInfo">40</span></div>
+                        </div>
+                        <div class="distribution-item">
+                            <label>Medical Supplies:</label>
+                            <div class="control-group">
+                                <button class="btn-control" id="medicalMinus">−</button>
+                                <input type="number" id="medicalPerSoldier" value="1" min="0" max="5">
+                                <button class="btn-control" id="medicalPlus">+</button>
+                            </div>
+                            <div class="info-text">Available: <span id="medicalInfo">15</span></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Daily Actions -->
+                <section class="actions-section">
+                    <h2>⚡ Daily Actions</h2>
+                    <div class="actions-grid">
+                        <button class="action-btn" id="restBtn">
+                            <span class="action-icon">😴</span>
+                            <span class="action-text">Rest & Recover</span>
+                            <span class="action-desc">Improve morale and health</span>
+                        </button>
+                        <button class="action-btn" id="trainBtn">
+                            <span class="action-icon">🏋️</span>
+                            <span class="action-text">Training</span>
+                            <span class="action-desc">Build team cohesion</span>
+                        </button>
+                        <button class="action-btn" id="scavengeBtn">
+                            <span class="action-icon">🔍</span>
+                            <span class="action-text">Scavenge</span>
+                            <span class="action-desc">Risk: Find supplies</span>
+                        </button>
+                        <button class="action-btn" id="medicBtn">
+                            <span class="action-icon">🏥</span>
+                            <span class="action-text">Medical Aid</span>
+                            <span class="action-desc">Treat wounded</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- End Day Button -->
+                <section class="end-day-section">
+                    <button class="end-day-btn" id="endDayBtn">
+                        ➜ End Day & Advance
+                    </button>
+                </section>
+            </main>
+
+            <!-- Right Sidebar - Events & Log -->
+            <aside class="sidebar events-sidebar">
+                <h2>📋 Event Log</h2>
+                <div id="eventLog" class="event-log">
+                    <div class="event event-info">
+                        <strong>Game Started</strong><br>
+                        Manage your squad wisely!
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Game Over Modal -->
+        <div id="gameOverModal" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="gameOverTitle">Mission Failed</h2>
+                <p id="gameOverMessage"></p>
+                <div class="game-stats-final">
+                    <div class="stat-final">
+                        <span class="label">Days Survived:</span>
+                        <span id="finalDays" class="value">0</span>
+                    </div>
+                    <div class="stat-final">
+                        <span class="label">Soldiers Alive:</span>
+                        <span id="finalSoldiers" class="value">0/12</span>
+                    </div>
+                    <div class="stat-final">
+                        <span class="label">Final Health:</span>
+                        <span id="finalHealth" class="value">0%</span>
+                    </div>
+                </div>
+                <button class="btn-primary" id="restartBtn">Restart Game</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
